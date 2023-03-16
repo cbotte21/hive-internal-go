@@ -2,9 +2,6 @@ module github.com/cbotte21/hive-go
 
 go 1.19
 
-require github.com/cbotte21/judicial-go v0.0.0
-replace github.com/cbotte21/judicial-go v0.0.0 => ../judicial-go
-
 require (
 	golang.org/x/net v0.4.0
 	google.golang.org/grpc v1.52.0
@@ -12,6 +9,7 @@ require (
 )
 
 require (
+	github.com/cbotte21/judicial-go v0.0.0-20230316194137-c04bf233f93b // indirect
 	github.com/cbotte21/microservice-common v0.0.0-20230316192226-9638d90adda8 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
