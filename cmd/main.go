@@ -42,7 +42,7 @@ func main() {
 
 func getJudicialConn(port string) *grpc.ClientConn {
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("judicial:"+enviroment.GetEnvVariable("judicial_port"), grpc.WithInsecure()) //TODO: variable for this port
+	conn, err := grpc.Dial("judicial:"+enviroment.GetEnvVariable("judicial_port"), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
