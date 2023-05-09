@@ -22,11 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type HiveServiceClient interface {
-	Join(ctx context.Context, in *JoinRequest, opts ...grpc.CallOption) (*JoinResponse, error)
-	Disconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*DisconnectResponse, error)
+	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (HiveService_ConnectClient, error)
+	ForceDisconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*DisconnectResponse, error)
 	Redeem(ctx context.Context, in *RedeemRequest, opts ...grpc.CallOption) (*RedeemResponse, error)
 	Online(ctx context.Context, in *OnlineRequest, opts ...grpc.CallOption) (*OnlineResponse, error)
-	Role(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*RoleResponse, error)
 }
 
 type hiveServiceClient struct {
@@ -37,18 +36,41 @@ func NewHiveServiceClient(cc grpc.ClientConnInterface) HiveServiceClient {
 	return &hiveServiceClient{cc}
 }
 
-func (c *hiveServiceClient) Join(ctx context.Context, in *JoinRequest, opts ...grpc.CallOption) (*JoinResponse, error) {
-	out := new(JoinResponse)
-	err := c.cc.Invoke(ctx, "/HiveService/Join", in, out, opts...)
+func (c *hiveServiceClient) Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (HiveService_ConnectClient, error) {
+	stream, err := c.cc.NewStream(ctx, &HiveService_ServiceDesc.Streams[0], "/HiveService/Connect", opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &hiveServiceConnectClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
 }
 
-func (c *hiveServiceClient) Disconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*DisconnectResponse, error) {
+type HiveService_ConnectClient interface {
+	Recv() (*ConnectionStatus, error)
+	grpc.ClientStream
+}
+
+type hiveServiceConnectClient struct {
+	grpc.ClientStream
+}
+
+func (x *hiveServiceConnectClient) Recv() (*ConnectionStatus, error) {
+	m := new(ConnectionStatus)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *hiveServiceClient) ForceDisconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*DisconnectResponse, error) {
 	out := new(DisconnectResponse)
-	err := c.cc.Invoke(ctx, "/HiveService/Disconnect", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/HiveService/ForceDisconnect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +79,7 @@ func (c *hiveServiceClient) Disconnect(ctx context.Context, in *DisconnectReques
 
 func (c *hiveServiceClient) Redeem(ctx context.Context, in *RedeemRequest, opts ...grpc.CallOption) (*RedeemResponse, error) {
 	out := new(RedeemResponse)
-	err := c.cc.Invoke(ctx, "/HiveService/GetId", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/HiveService/Redeem", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,24 +95,14 @@ func (c *hiveServiceClient) Online(ctx context.Context, in *OnlineRequest, opts 
 	return out, nil
 }
 
-func (c *hiveServiceClient) Role(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*RoleResponse, error) {
-	out := new(RoleResponse)
-	err := c.cc.Invoke(ctx, "/HiveService/Role", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // HiveServiceServer is the server API for HiveService service.
 // All implementations must embed UnimplementedHiveServiceServer
 // for forward compatibility
 type HiveServiceServer interface {
-	Join(context.Context, *JoinRequest) (*JoinResponse, error)
-	Disconnect(context.Context, *DisconnectRequest) (*DisconnectResponse, error)
+	Connect(*ConnectRequest, HiveService_ConnectServer) error
+	ForceDisconnect(context.Context, *DisconnectRequest) (*DisconnectResponse, error)
 	Redeem(context.Context, *RedeemRequest) (*RedeemResponse, error)
 	Online(context.Context, *OnlineRequest) (*OnlineResponse, error)
-	Role(context.Context, *RoleRequest) (*RoleResponse, error)
 	mustEmbedUnimplementedHiveServiceServer()
 }
 
@@ -98,20 +110,17 @@ type HiveServiceServer interface {
 type UnimplementedHiveServiceServer struct {
 }
 
-func (UnimplementedHiveServiceServer) Join(context.Context, *JoinRequest) (*JoinResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Join not implemented")
+func (UnimplementedHiveServiceServer) Connect(*ConnectRequest, HiveService_ConnectServer) error {
+	return status.Errorf(codes.Unimplemented, "method Connect not implemented")
 }
-func (UnimplementedHiveServiceServer) Disconnect(context.Context, *DisconnectRequest) (*DisconnectResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Disconnect not implemented")
+func (UnimplementedHiveServiceServer) ForceDisconnect(context.Context, *DisconnectRequest) (*DisconnectResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForceDisconnect not implemented")
 }
 func (UnimplementedHiveServiceServer) Redeem(context.Context, *RedeemRequest) (*RedeemResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetId not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method Redeem not implemented")
 }
 func (UnimplementedHiveServiceServer) Online(context.Context, *OnlineRequest) (*OnlineResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Online not implemented")
-}
-func (UnimplementedHiveServiceServer) Role(context.Context, *RoleRequest) (*RoleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Role not implemented")
 }
 func (UnimplementedHiveServiceServer) mustEmbedUnimplementedHiveServiceServer() {}
 
@@ -126,38 +135,41 @@ func RegisterHiveServiceServer(s grpc.ServiceRegistrar, srv HiveServiceServer) {
 	s.RegisterService(&HiveService_ServiceDesc, srv)
 }
 
-func _HiveService_Join_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(JoinRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _HiveService_Connect_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ConnectRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(HiveServiceServer).Join(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/HiveService/Join",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HiveServiceServer).Join(ctx, req.(*JoinRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(HiveServiceServer).Connect(m, &hiveServiceConnectServer{stream})
 }
 
-func _HiveService_Disconnect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+type HiveService_ConnectServer interface {
+	Send(*ConnectionStatus) error
+	grpc.ServerStream
+}
+
+type hiveServiceConnectServer struct {
+	grpc.ServerStream
+}
+
+func (x *hiveServiceConnectServer) Send(m *ConnectionStatus) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _HiveService_ForceDisconnect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DisconnectRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HiveServiceServer).Disconnect(ctx, in)
+		return srv.(HiveServiceServer).ForceDisconnect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/HiveService/Disconnect",
+		FullMethod: "/HiveService/ForceDisconnect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HiveServiceServer).Disconnect(ctx, req.(*DisconnectRequest))
+		return srv.(HiveServiceServer).ForceDisconnect(ctx, req.(*DisconnectRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -172,7 +184,7 @@ func _HiveService_Redeem_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/HiveService/GetId",
+		FullMethod: "/HiveService/Redeem",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(HiveServiceServer).Redeem(ctx, req.(*RedeemRequest))
@@ -198,24 +210,6 @@ func _HiveService_Online_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HiveService_Role_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RoleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(HiveServiceServer).Role(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/HiveService/Role",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HiveServiceServer).Role(ctx, req.(*RoleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // HiveService_ServiceDesc is the grpc.ServiceDesc for HiveService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -224,26 +218,24 @@ var HiveService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*HiveServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Join",
-			Handler:    _HiveService_Join_Handler,
+			MethodName: "ForceDisconnect",
+			Handler:    _HiveService_ForceDisconnect_Handler,
 		},
 		{
-			MethodName: "Disconnect",
-			Handler:    _HiveService_Disconnect_Handler,
-		},
-		{
-			MethodName: "GetId",
+			MethodName: "Redeem",
 			Handler:    _HiveService_Redeem_Handler,
 		},
 		{
 			MethodName: "Online",
 			Handler:    _HiveService_Online_Handler,
 		},
+	},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "Role",
-			Handler:    _HiveService_Role_Handler,
+			StreamName:    "Connect",
+			Handler:       _HiveService_Connect_Handler,
+			ServerStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "hive.proto",
 }

@@ -28,7 +28,7 @@ func main() {
 
 	//Register handlers to attach
 	playerBase := playerbase.PlayerBase{}
-	jwtRedeemer := jwtParser.JwtSecret(enviroment.GetEnvVariable("secret"))
+	jwtRedeemer := jwtParser.JwtSecret(enviroment.GetEnvVariable("jwt_secret"))
 	judicialClient := judicial.NewJudicialServiceClient(getJudicialConn(port))
 	//Initialize hive
 	hive := internal.NewHive(&playerBase, &jwtRedeemer, &judicialClient)
@@ -42,7 +42,7 @@ func main() {
 
 func getJudicialConn(port string) *grpc.ClientConn {
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(":"+enviroment.GetEnvVariable("judicial_port"), grpc.WithInsecure()) //TODO: variable for this port
+	conn, err := grpc.Dial("judicial:"+enviroment.GetEnvVariable("judicial_port"), grpc.WithInsecure()) //TODO: variable for this port
 	if err != nil {
 		log.Fatalf(err.Error())
 	}

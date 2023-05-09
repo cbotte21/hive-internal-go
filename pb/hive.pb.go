@@ -20,7 +20,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type JoinRequest struct {
+type ConnectRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -28,8 +28,8 @@ type JoinRequest struct {
 	Jwt string `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"`
 }
 
-func (x *JoinRequest) Reset() {
-	*x = JoinRequest{}
+func (x *ConnectRequest) Reset() {
+	*x = ConnectRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_hive_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -37,13 +37,13 @@ func (x *JoinRequest) Reset() {
 	}
 }
 
-func (x *JoinRequest) String() string {
+func (x *ConnectRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*JoinRequest) ProtoMessage() {}
+func (*ConnectRequest) ProtoMessage() {}
 
-func (x *JoinRequest) ProtoReflect() protoreflect.Message {
+func (x *ConnectRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_hive_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -55,12 +55,12 @@ func (x *JoinRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JoinRequest.ProtoReflect.Descriptor instead.
-func (*JoinRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ConnectRequest.ProtoReflect.Descriptor instead.
+func (*ConnectRequest) Descriptor() ([]byte, []int) {
 	return file_hive_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *JoinRequest) GetJwt() string {
+func (x *ConnectRequest) GetJwt() string {
 	if x != nil {
 		return x.Jwt
 	}
@@ -72,7 +72,7 @@ type DisconnectRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Jwt string `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (x *DisconnectRequest) Reset() {
@@ -107,9 +107,9 @@ func (*DisconnectRequest) Descriptor() ([]byte, []int) {
 	return file_hive_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DisconnectRequest) GetJwt() string {
+func (x *DisconnectRequest) GetId() string {
 	if x != nil {
-		return x.Jwt
+		return x.Id
 	}
 	return ""
 }
@@ -161,53 +161,6 @@ func (x *RedeemRequest) GetJwt() string {
 	return ""
 }
 
-type RoleRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Jwt string `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"`
-}
-
-func (x *RoleRequest) Reset() {
-	*x = RoleRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_hive_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RoleRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RoleRequest) ProtoMessage() {}
-
-func (x *RoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hive_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RoleRequest.ProtoReflect.Descriptor instead.
-func (*RoleRequest) Descriptor() ([]byte, []int) {
-	return file_hive_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *RoleRequest) GetJwt() string {
-	if x != nil {
-		return x.Jwt
-	}
-	return ""
-}
-
 type OnlineRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -219,7 +172,7 @@ type OnlineRequest struct {
 func (x *OnlineRequest) Reset() {
 	*x = OnlineRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_hive_proto_msgTypes[4]
+		mi := &file_hive_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -232,7 +185,7 @@ func (x *OnlineRequest) String() string {
 func (*OnlineRequest) ProtoMessage() {}
 
 func (x *OnlineRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hive_proto_msgTypes[4]
+	mi := &file_hive_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -245,7 +198,7 @@ func (x *OnlineRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OnlineRequest.ProtoReflect.Descriptor instead.
 func (*OnlineRequest) Descriptor() ([]byte, []int) {
-	return file_hive_proto_rawDescGZIP(), []int{4}
+	return file_hive_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *OnlineRequest) GetXId() string {
@@ -266,7 +219,7 @@ type RedeemResponse struct {
 func (x *RedeemResponse) Reset() {
 	*x = RedeemResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_hive_proto_msgTypes[5]
+		mi := &file_hive_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -279,7 +232,7 @@ func (x *RedeemResponse) String() string {
 func (*RedeemResponse) ProtoMessage() {}
 
 func (x *RedeemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hive_proto_msgTypes[5]
+	mi := &file_hive_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -292,7 +245,7 @@ func (x *RedeemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RedeemResponse.ProtoReflect.Descriptor instead.
 func (*RedeemResponse) Descriptor() ([]byte, []int) {
-	return file_hive_proto_rawDescGZIP(), []int{5}
+	return file_hive_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RedeemResponse) GetXId() string {
@@ -311,7 +264,7 @@ type DisconnectResponse struct {
 func (x *DisconnectResponse) Reset() {
 	*x = DisconnectResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_hive_proto_msgTypes[6]
+		mi := &file_hive_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -324,7 +277,7 @@ func (x *DisconnectResponse) String() string {
 func (*DisconnectResponse) ProtoMessage() {}
 
 func (x *DisconnectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hive_proto_msgTypes[6]
+	mi := &file_hive_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -337,10 +290,10 @@ func (x *DisconnectResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DisconnectResponse.ProtoReflect.Descriptor instead.
 func (*DisconnectResponse) Descriptor() ([]byte, []int) {
-	return file_hive_proto_rawDescGZIP(), []int{6}
+	return file_hive_proto_rawDescGZIP(), []int{5}
 }
 
-type JoinResponse struct {
+type ConnectionStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -348,23 +301,23 @@ type JoinResponse struct {
 	Status int32 `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
 }
 
-func (x *JoinResponse) Reset() {
-	*x = JoinResponse{}
+func (x *ConnectionStatus) Reset() {
+	*x = ConnectionStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_hive_proto_msgTypes[7]
+		mi := &file_hive_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *JoinResponse) String() string {
+func (x *ConnectionStatus) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*JoinResponse) ProtoMessage() {}
+func (*ConnectionStatus) ProtoMessage() {}
 
-func (x *JoinResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hive_proto_msgTypes[7]
+func (x *ConnectionStatus) ProtoReflect() protoreflect.Message {
+	mi := &file_hive_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -375,12 +328,12 @@ func (x *JoinResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JoinResponse.ProtoReflect.Descriptor instead.
-func (*JoinResponse) Descriptor() ([]byte, []int) {
-	return file_hive_proto_rawDescGZIP(), []int{7}
+// Deprecated: Use ConnectionStatus.ProtoReflect.Descriptor instead.
+func (*ConnectionStatus) Descriptor() ([]byte, []int) {
+	return file_hive_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *JoinResponse) GetStatus() int32 {
+func (x *ConnectionStatus) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
@@ -398,7 +351,7 @@ type OnlineResponse struct {
 func (x *OnlineResponse) Reset() {
 	*x = OnlineResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_hive_proto_msgTypes[8]
+		mi := &file_hive_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -411,7 +364,7 @@ func (x *OnlineResponse) String() string {
 func (*OnlineResponse) ProtoMessage() {}
 
 func (x *OnlineResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hive_proto_msgTypes[8]
+	mi := &file_hive_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -424,7 +377,7 @@ func (x *OnlineResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OnlineResponse.ProtoReflect.Descriptor instead.
 func (*OnlineResponse) Descriptor() ([]byte, []int) {
-	return file_hive_proto_rawDescGZIP(), []int{8}
+	return file_hive_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *OnlineResponse) GetStatus() int32 {
@@ -434,64 +387,15 @@ func (x *OnlineResponse) GetStatus() int32 {
 	return 0
 }
 
-type RoleResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Value int32 `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
-}
-
-func (x *RoleResponse) Reset() {
-	*x = RoleResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_hive_proto_msgTypes[9]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RoleResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RoleResponse) ProtoMessage() {}
-
-func (x *RoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hive_proto_msgTypes[9]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RoleResponse.ProtoReflect.Descriptor instead.
-func (*RoleResponse) Descriptor() ([]byte, []int) {
-	return file_hive_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *RoleResponse) GetValue() int32 {
-	if x != nil {
-		return x.Value
-	}
-	return 0
-}
-
 var File_hive_proto protoreflect.FileDescriptor
 
 var file_hive_proto_rawDesc = []byte{
-	0x0a, 0x0a, 0x68, 0x69, 0x76, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x1f, 0x0a, 0x0b,
-	0x4a, 0x6f, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x6a,
-	0x77, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6a, 0x77, 0x74, 0x22, 0x25, 0x0a,
-	0x11, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x6a, 0x77, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x03, 0x6a, 0x77, 0x74, 0x22, 0x21, 0x0a, 0x0d, 0x52, 0x65, 0x64, 0x65, 0x65, 0x6d, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x6a, 0x77, 0x74, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x03, 0x6a, 0x77, 0x74, 0x22, 0x1f, 0x0a, 0x0b, 0x52, 0x6f, 0x6c, 0x65, 0x52,
+	0x0a, 0x0a, 0x68, 0x69, 0x76, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x22, 0x0a, 0x0e,
+	0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10,
+	0x0a, 0x03, 0x6a, 0x77, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6a, 0x77, 0x74,
+	0x22, 0x23, 0x0a, 0x11, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x21, 0x0a, 0x0d, 0x52, 0x65, 0x64, 0x65, 0x65, 0x6d, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x6a, 0x77, 0x74, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x03, 0x6a, 0x77, 0x74, 0x22, 0x20, 0x0a, 0x0d, 0x4f, 0x6e, 0x6c, 0x69,
 	0x6e, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0f, 0x0a, 0x03, 0x5f, 0x69, 0x64,
@@ -499,32 +403,28 @@ var file_hive_proto_rawDesc = []byte{
 	0x64, 0x65, 0x65, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0f, 0x0a, 0x03,
 	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x64, 0x22, 0x14, 0x0a,
 	0x12, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x26, 0x0a, 0x0c, 0x4a, 0x6f, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x05, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x28, 0x0a, 0x0e, 0x4f,
-	0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a,
-	0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x73,
-	0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x24, 0x0a, 0x0c, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x32, 0xee, 0x01, 0x0a, 0x0b,
-	0x48, 0x69, 0x76, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x25, 0x0a, 0x04, 0x4a,
-	0x6f, 0x69, 0x6e, 0x12, 0x0c, 0x2e, 0x4a, 0x6f, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x0d, 0x2e, 0x4a, 0x6f, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x12, 0x37, 0x0a, 0x0a, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74,
-	0x12, 0x12, 0x2e, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63,
-	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x2b, 0x0a, 0x06, 0x52,
-	0x65, 0x64, 0x65, 0x65, 0x6d, 0x12, 0x0e, 0x2e, 0x52, 0x65, 0x64, 0x65, 0x65, 0x6d, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0f, 0x2e, 0x52, 0x65, 0x64, 0x65, 0x65, 0x6d, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x2b, 0x0a, 0x06, 0x4f, 0x6e, 0x6c, 0x69,
-	0x6e, 0x65, 0x12, 0x0e, 0x2e, 0x4f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x0f, 0x2e, 0x4f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x25, 0x0a, 0x04, 0x52, 0x6f, 0x6c, 0x65, 0x12, 0x0c, 0x2e,
-	0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x52, 0x6f,
-	0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x20, 0x5a, 0x1e,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x62, 0x6f, 0x74, 0x74,
-	0x65, 0x32, 0x31, 0x2f, 0x68, 0x69, 0x76, 0x65, 0x2d, 0x67, 0x6f, 0x2f, 0x70, 0x62, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x73, 0x65, 0x22, 0x2a, 0x0a, 0x10, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22,
+	0x28, 0x0a, 0x0e, 0x4f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x32, 0xd8, 0x01, 0x0a, 0x0b, 0x48, 0x69,
+	0x76, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x31, 0x0a, 0x07, 0x43, 0x6f, 0x6e,
+	0x6e, 0x65, 0x63, 0x74, 0x12, 0x0f, 0x2e, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x00, 0x30, 0x01, 0x12, 0x3c, 0x0a, 0x0f,
+	0x46, 0x6f, 0x72, 0x63, 0x65, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x12,
+	0x12, 0x2e, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x2b, 0x0a, 0x06, 0x52, 0x65,
+	0x64, 0x65, 0x65, 0x6d, 0x12, 0x0e, 0x2e, 0x52, 0x65, 0x64, 0x65, 0x65, 0x6d, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x0f, 0x2e, 0x52, 0x65, 0x64, 0x65, 0x65, 0x6d, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x2b, 0x0a, 0x06, 0x4f, 0x6e, 0x6c, 0x69, 0x6e,
+	0x65, 0x12, 0x0e, 0x2e, 0x4f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x0f, 0x2e, 0x4f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x00, 0x42, 0x20, 0x5a, 0x1e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x63, 0x62, 0x6f, 0x74, 0x74, 0x65, 0x32, 0x31, 0x2f, 0x68, 0x69, 0x76, 0x65,
+	0x2d, 0x67, 0x6f, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -539,32 +439,28 @@ func file_hive_proto_rawDescGZIP() []byte {
 	return file_hive_proto_rawDescData
 }
 
-var file_hive_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_hive_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_hive_proto_goTypes = []interface{}{
-	(*JoinRequest)(nil),        // 0: JoinRequest
+	(*ConnectRequest)(nil),     // 0: ConnectRequest
 	(*DisconnectRequest)(nil),  // 1: DisconnectRequest
 	(*RedeemRequest)(nil),      // 2: RedeemRequest
-	(*RoleRequest)(nil),        // 3: RoleRequest
-	(*OnlineRequest)(nil),      // 4: OnlineRequest
-	(*RedeemResponse)(nil),     // 5: RedeemResponse
-	(*DisconnectResponse)(nil), // 6: DisconnectResponse
-	(*JoinResponse)(nil),       // 7: JoinResponse
-	(*OnlineResponse)(nil),     // 8: OnlineResponse
-	(*RoleResponse)(nil),       // 9: RoleResponse
+	(*OnlineRequest)(nil),      // 3: OnlineRequest
+	(*RedeemResponse)(nil),     // 4: RedeemResponse
+	(*DisconnectResponse)(nil), // 5: DisconnectResponse
+	(*ConnectionStatus)(nil),   // 6: ConnectionStatus
+	(*OnlineResponse)(nil),     // 7: OnlineResponse
 }
 var file_hive_proto_depIdxs = []int32{
-	0, // 0: HiveService.Join:input_type -> JoinRequest
-	1, // 1: HiveService.Disconnect:input_type -> DisconnectRequest
-	2, // 2: HiveService.GetId:input_type -> RedeemRequest
-	4, // 3: HiveService.Online:input_type -> OnlineRequest
-	3, // 4: HiveService.Role:input_type -> RoleRequest
-	7, // 5: HiveService.Join:output_type -> JoinResponse
-	6, // 6: HiveService.Disconnect:output_type -> DisconnectResponse
-	5, // 7: HiveService.GetId:output_type -> RedeemResponse
-	8, // 8: HiveService.Online:output_type -> OnlineResponse
-	9, // 9: HiveService.Role:output_type -> RoleResponse
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
+	0, // 0: HiveService.Connect:input_type -> ConnectRequest
+	1, // 1: HiveService.ForceDisconnect:input_type -> DisconnectRequest
+	2, // 2: HiveService.Redeem:input_type -> RedeemRequest
+	3, // 3: HiveService.Online:input_type -> OnlineRequest
+	6, // 4: HiveService.Connect:output_type -> ConnectionStatus
+	5, // 5: HiveService.ForceDisconnect:output_type -> DisconnectResponse
+	4, // 6: HiveService.Redeem:output_type -> RedeemResponse
+	7, // 7: HiveService.Online:output_type -> OnlineResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -577,7 +473,7 @@ func file_hive_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_hive_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*JoinRequest); i {
+			switch v := v.(*ConnectRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -613,18 +509,6 @@ func file_hive_proto_init() {
 			}
 		}
 		file_hive_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RoleRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_hive_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*OnlineRequest); i {
 			case 0:
 				return &v.state
@@ -636,7 +520,7 @@ func file_hive_proto_init() {
 				return nil
 			}
 		}
-		file_hive_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_hive_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RedeemResponse); i {
 			case 0:
 				return &v.state
@@ -648,7 +532,7 @@ func file_hive_proto_init() {
 				return nil
 			}
 		}
-		file_hive_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_hive_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DisconnectResponse); i {
 			case 0:
 				return &v.state
@@ -660,32 +544,20 @@ func file_hive_proto_init() {
 				return nil
 			}
 		}
+		file_hive_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ConnectionStatus); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 		file_hive_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*JoinResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_hive_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*OnlineResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_hive_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RoleResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -703,7 +575,7 @@ func file_hive_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_hive_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

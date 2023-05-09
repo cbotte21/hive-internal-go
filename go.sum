@@ -1,5 +1,6 @@
 github.com/cbotte21/judicial-go v0.0.0-20230316194137-c04bf233f93b h1:9lwihCzSiKsxIT5jdtcjlXh47AtZRw5wCLONvkW/Apc=
 github.com/cbotte21/judicial-go v0.0.0-20230316194137-c04bf233f93b/go.mod h1:SlYLdHTrhg4VHOQ7clW09KzkoVRMZ2HnefUF1N9/dhg=
+github.com/cbotte21/microservice-common v0.0.0-20230316192226-9638d90adda8 h1:iaF2yanj4hjHRyh4lxbvhv0U73tKOFag+/GmDyFZ1Oo=
 github.com/cbotte21/microservice-common v0.0.0-20230316192226-9638d90adda8/go.mod h1:veu4HtaudWBxRpaKSsNrR4biv1n2gu3rT9p6bKg0c84=
 github.com/golang-jwt/jwt/v4 v4.5.0 h1:7cYmW1XlMY7h7ii7UhUyChSgS5wUJEnm9uZVTGqOWzg=
 github.com/golang-jwt/jwt/v4 v4.5.0/go.mod h1:m21LjoU+eqJr34lmDMbreY2eSTRJ1cv77w39/MY0Ch0=
