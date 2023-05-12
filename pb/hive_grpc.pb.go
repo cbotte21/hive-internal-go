@@ -24,7 +24,6 @@ const _ = grpc.SupportPackageIsVersion7
 type HiveServiceClient interface {
 	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (HiveService_ConnectClient, error)
 	ForceDisconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*DisconnectResponse, error)
-	Redeem(ctx context.Context, in *RedeemRequest, opts ...grpc.CallOption) (*RedeemResponse, error)
 	Online(ctx context.Context, in *OnlineRequest, opts ...grpc.CallOption) (*OnlineResponse, error)
 }
 
@@ -77,15 +76,6 @@ func (c *hiveServiceClient) ForceDisconnect(ctx context.Context, in *DisconnectR
 	return out, nil
 }
 
-func (c *hiveServiceClient) Redeem(ctx context.Context, in *RedeemRequest, opts ...grpc.CallOption) (*RedeemResponse, error) {
-	out := new(RedeemResponse)
-	err := c.cc.Invoke(ctx, "/HiveService/Redeem", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *hiveServiceClient) Online(ctx context.Context, in *OnlineRequest, opts ...grpc.CallOption) (*OnlineResponse, error) {
 	out := new(OnlineResponse)
 	err := c.cc.Invoke(ctx, "/HiveService/Online", in, out, opts...)
@@ -101,7 +91,6 @@ func (c *hiveServiceClient) Online(ctx context.Context, in *OnlineRequest, opts 
 type HiveServiceServer interface {
 	Connect(*ConnectRequest, HiveService_ConnectServer) error
 	ForceDisconnect(context.Context, *DisconnectRequest) (*DisconnectResponse, error)
-	Redeem(context.Context, *RedeemRequest) (*RedeemResponse, error)
 	Online(context.Context, *OnlineRequest) (*OnlineResponse, error)
 	mustEmbedUnimplementedHiveServiceServer()
 }
@@ -115,9 +104,6 @@ func (UnimplementedHiveServiceServer) Connect(*ConnectRequest, HiveService_Conne
 }
 func (UnimplementedHiveServiceServer) ForceDisconnect(context.Context, *DisconnectRequest) (*DisconnectResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ForceDisconnect not implemented")
-}
-func (UnimplementedHiveServiceServer) Redeem(context.Context, *RedeemRequest) (*RedeemResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Redeem not implemented")
 }
 func (UnimplementedHiveServiceServer) Online(context.Context, *OnlineRequest) (*OnlineResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Online not implemented")
@@ -174,24 +160,6 @@ func _HiveService_ForceDisconnect_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HiveService_Redeem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RedeemRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(HiveServiceServer).Redeem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/HiveService/Redeem",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HiveServiceServer).Redeem(ctx, req.(*RedeemRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _HiveService_Online_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(OnlineRequest)
 	if err := dec(in); err != nil {
@@ -220,10 +188,6 @@ var HiveService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ForceDisconnect",
 			Handler:    _HiveService_ForceDisconnect_Handler,
-		},
-		{
-			MethodName: "Redeem",
-			Handler:    _HiveService_Redeem_Handler,
 		},
 		{
 			MethodName: "Online",
