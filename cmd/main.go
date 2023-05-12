@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/cbotte21/hive-go/internal"
 	"github.com/cbotte21/hive-go/pb"
 	schema2 "github.com/cbotte21/hive-go/schema"
@@ -32,6 +33,7 @@ func main() {
 	redisClient := datastore.RedisClient[schema2.ActiveUser]{}
 	err = redisClient.Init()
 	if err != nil {
+		fmt.Println("err occurred in main.go")
 		panic(err)
 	}
 	jwtRedeemer := jwtParser.JwtSecret(enviroment.GetEnvVariable("jwt_secret"))
@@ -41,7 +43,7 @@ func main() {
 	hive := internal.NewHive(&jwtRedeemer, &judicialClient, &redisClient)
 	pb.RegisterHiveServiceServer(grpcServer, &hive)
 	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("Failed to initialize grpc server.")
+		log.Fatalf(err.Error())
 	}
 }
 
