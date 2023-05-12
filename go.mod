@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/cbotte21/judicial-go v0.0.0-20230512165854-3398f4eefa81
-	github.com/cbotte21/microservice-common v0.0.0-20230512173054-7737249d03a9
+	github.com/cbotte21/microservice-common v0.0.0-20230512174103-6af9aabed65f
 	golang.org/x/net v0.10.0
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0

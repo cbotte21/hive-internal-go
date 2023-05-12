@@ -39,10 +39,11 @@ func (hive *Hive) Connect(connectRequest *pb.ConnectRequest, stream pb.HiveServi
 				}
 
 				fmt.Println("[+] " + res.Id)
+
 				// While connected loop
-				_, err := hive.RedisClient.Find(user)
 				for err == nil && stream.Send(&pb.ConnectionStatus{Status: 1}) == nil {
 					time.Sleep(PollTimeSeconds * time.Second)
+					_, err = hive.RedisClient.Find(user)
 				}
 
 				//Remove user from redis cache
