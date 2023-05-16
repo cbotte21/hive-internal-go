@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/cbotte21/judicial-go v0.0.0-20230516025731-39dec33305eb
-	github.com/cbotte21/microservice-common v0.0.0-20230516034950-7f1be67ff6e0
+	github.com/cbotte21/microservice-common v0.0.0-20230516195102-186e3822f0f1
 	golang.org/x/net v0.10.0
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
@@ -14,6 +14,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
+	github.com/go-redis/redismock/v8 v8.11.5 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect

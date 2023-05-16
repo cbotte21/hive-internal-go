@@ -40,10 +40,21 @@ func (hive *Hive) Connect(connectRequest *pb.ConnectRequest, stream pb.HiveServi
 
 				fmt.Println("[+] " + res.Id)
 
+				kicked := 0
+				go func(kicked *int) {
+					sub := hive.RedisClient.Subscribe("kicks")
+					ch := sub.Channel()
+					for msg := range ch {
+						if msg.Payload == res.Id {
+							*kicked = 1
+							break
+						}
+					}
+				}(&kicked)
+
 				// While connected loop
-				for err == nil && stream.Send(&pb.ConnectionStatus{Status: 1}) == nil {
+				for stream.Send(&pb.ConnectionStatus{Status: 1}) == nil && kicked == 0 {
 					time.Sleep(PollTimeSeconds * time.Second)
-					_, err = hive.RedisClient.Find(user)
 				}
 
 				//Send disconnect message in-case kicked
@@ -60,9 +71,7 @@ func (hive *Hive) Connect(connectRequest *pb.ConnectRequest, stream pb.HiveServi
 
 // ForceDisconnect removes the player from the active PlayerBase
 func (hive *Hive) ForceDisconnect(ctx context.Context, disconnectRequest *pb.DisconnectRequest) (*pb.DisconnectResponse, error) {
-	user := schema2.ActiveUser{Id: disconnectRequest.GetId()}
-	err := hive.RedisClient.Delete(user)
-	return &pb.DisconnectResponse{}, err
+	return &pb.DisconnectResponse{}, hive.RedisClient.Publish("kicks", disconnectRequest.GetId())
 }
 
 // Online returns true if a player is online
