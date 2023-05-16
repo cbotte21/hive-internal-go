@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/cbotte21/hive-go/internal"
 	"github.com/cbotte21/hive-go/pb"
 	schema2 "github.com/cbotte21/hive-go/schema"
@@ -18,7 +17,7 @@ func main() {
 	// Verify environment variables exist
 	enviroment.VerifyEnvVariable("port")
 	enviroment.VerifyEnvVariable("jwt_secret")
-	enviroment.VerifyEnvVariable("judicial_port")
+	enviroment.VerifyEnvVariable("judicial_addr")
 
 	port := enviroment.GetEnvVariable("port")
 
@@ -33,7 +32,6 @@ func main() {
 	redisClient := datastore.RedisClient[schema2.ActiveUser]{}
 	err = redisClient.Init()
 	if err != nil {
-		fmt.Println("err occurred in main.go")
 		panic(err)
 	}
 	jwtRedeemer := jwtParser.JwtSecret(enviroment.GetEnvVariable("jwt_secret"))
@@ -49,7 +47,7 @@ func main() {
 
 func getJudicialConn() *grpc.ClientConn {
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("judicial:"+enviroment.GetEnvVariable("judicial_port"), grpc.WithInsecure())
+	conn, err := grpc.Dial(enviroment.GetEnvVariable("judicial_addr"), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf(err.Error())
 	}

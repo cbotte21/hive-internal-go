@@ -46,7 +46,7 @@ func (hive *Hive) Connect(connectRequest *pb.ConnectRequest, stream pb.HiveServi
 					_, err = hive.RedisClient.Find(user)
 				}
 
-				//Send disconnect message incase kicked
+				//Send disconnect message in-case kicked
 				_ = stream.Send(&pb.ConnectionStatus{Status: 0})
 
 				//Remove user from redis cache
