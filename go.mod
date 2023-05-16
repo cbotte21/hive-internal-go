@@ -3,7 +3,7 @@ module github.com/cbotte21/hive-go
 go 1.19
 
 require (
-	github.com/cbotte21/judicial-go v0.0.0-20230512165854-3398f4eefa81
+	github.com/cbotte21/judicial-go v0.0.0-20230516025731-39dec33305eb
 	github.com/cbotte21/microservice-common v0.0.0-20230512174103-6af9aabed65f
 	golang.org/x/net v0.10.0
 	google.golang.org/grpc v1.55.0
@@ -17,7 +17,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/gomodule/redigo v1.8.3 // indirect
+	github.com/gomodule/redigo v1.8.9 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
