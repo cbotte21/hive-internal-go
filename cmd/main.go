@@ -24,7 +24,7 @@ func main() {
 	// Setup tcp listener
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
-		log.Fatalf("Failed to listen on port: %d", port)
+		log.Fatalf("Failed to listen on port: %s", port)
 	}
 	grpcServer := grpc.NewServer()
 
