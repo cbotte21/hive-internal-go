@@ -51,8 +51,6 @@ func (hive *Hive) Connect(connectRequest *pb.ConnectRequest, stream pb.HiveServi
 		return err
 	}
 
-	fmt.Println("[+] " + res.Id)
-
 	kicked := 0
 	go func(kicked *int) {
 		sub := hive.RedisClient.Subscribe("kicks")
@@ -64,6 +62,8 @@ func (hive *Hive) Connect(connectRequest *pb.ConnectRequest, stream pb.HiveServi
 			}
 		}
 	}(&kicked)
+
+	fmt.Println("[+] " + res.Id)
 
 	// While connected loop
 	for stream.Send(&pb.ConnectionStatus{Status: 1}) == nil && kicked == 0 {
@@ -77,6 +77,7 @@ func (hive *Hive) Connect(connectRequest *pb.ConnectRequest, stream pb.HiveServi
 
 	//Remove user from redis cache
 	_ = hive.RedisClient.Delete(user)
+
 	fmt.Println("[-] " + res.Id)
 
 	return nil
