@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"errors"
 	"fmt"
 	"github.com/cbotte21/hive-go/pb"
 	schema2 "github.com/cbotte21/hive-go/schema"
@@ -26,47 +27,59 @@ func NewHive(jwtRedeemer *jwtParser.JwtSecret, judicialClient *judicial.Judicial
 
 // Connect appends the player to the active players, and disconnects upon stream close
 func (hive *Hive) Connect(connectRequest *pb.ConnectRequest, stream pb.HiveService_ConnectServer) error {
+	// Check JWT authenticity
 	res, err := hive.JwtRedeemer.Redeem(connectRequest.GetJwt())
-	if err == nil {
-		integrity, err := (*hive.JudicialClient).Integrity(context.Background(), &judicial.IntegrityRequest{XId: res.Id})
-		if err == nil {
-			if integrity.Status {
-				user := schema2.ActiveUser{Id: res.Id, Jwt: connectRequest.GetJwt(), Role: res.Role}
-				//Create user in redis cache
-				err = hive.RedisClient.Create(user)
-				if err != nil {
-					return err
-				}
+	if err != nil {
+		return err
+	}
 
-				fmt.Println("[+] " + res.Id)
+	// Check if player is banned
+	integrity, err := (*hive.JudicialClient).Integrity(context.Background(), &judicial.IntegrityRequest{XId: res.Id})
+	if err != nil {
+		return err
+	}
+	if !integrity.Status {
+		return errors.New("player is banned")
+	}
 
-				kicked := 0
-				go func(kicked *int) {
-					sub := hive.RedisClient.Subscribe("kicks")
-					ch := sub.Channel()
-					for msg := range ch {
-						if msg.Payload == res.Id {
-							*kicked = 1
-							break
-						}
-					}
-				}(&kicked)
+	// All checks passed, connect
 
-				// While connected loop
-				for stream.Send(&pb.ConnectionStatus{Status: 1}) == nil && kicked == 0 {
-					time.Sleep(PollTimeSeconds * time.Second)
-				}
+	user := schema2.ActiveUser{Id: res.Id, Jwt: connectRequest.GetJwt(), Role: res.Role}
+	//Create user in redis cache
+	err = hive.RedisClient.Create(user)
+	if err != nil {
+		return err
+	}
 
-				//Send disconnect message in-case kicked
-				_ = stream.Send(&pb.ConnectionStatus{Status: 0})
+	fmt.Println("[+] " + res.Id)
 
-				//Remove user from redis cache
-				_ = hive.RedisClient.Delete(user)
-				fmt.Println("[-] " + res.Id)
+	kicked := 0
+	go func(kicked *int) {
+		sub := hive.RedisClient.Subscribe("kicks")
+		ch := sub.Channel()
+		for msg := range ch {
+			if msg.Payload == res.Id {
+				*kicked = 1
+				break
 			}
 		}
+	}(&kicked)
+
+	// While connected loop
+	for stream.Send(&pb.ConnectionStatus{Status: 1}) == nil && kicked == 0 {
+		time.Sleep(PollTimeSeconds * time.Second)
 	}
-	return err
+
+	//Send disconnect message if kicked
+	if kicked == 1 {
+		_ = stream.Send(&pb.ConnectionStatus{Status: 0})
+	}
+
+	//Remove user from redis cache
+	_ = hive.RedisClient.Delete(user)
+	fmt.Println("[-] " + res.Id)
+
+	return nil
 }
 
 // ForceDisconnect removes the player from the active PlayerBase
